@@ -10,6 +10,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 	"github.com/wailsapp/wails/v2/pkg/options/mac"
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
+	"gorm.io/gorm"
 )
 
 //go:embed all:frontend/dist
@@ -18,7 +19,17 @@ var assets embed.FS
 //go:embed build/appicon.png
 var icon []byte
 
+// database instance
+var db gorm.DB
+
 func main() {
+	err_db := dbConnect(&db)
+	if err_db != nil {
+		log.Fatal("failed to connect database")
+	}
+
+	dbMigrate(&db)
+
 	// Create an instance of the app structure
 	app := NewApp()
 
@@ -34,17 +45,17 @@ func main() {
 		StartHidden:       false,
 		HideWindowOnClose: false,
 		BackgroundColour:  &options.RGBA{R: 255, G: 255, B: 255, A: 255},
-		AssetServer:       &assetserver.Options{
+		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		Menu:              nil,
-		Logger:            nil,
-		LogLevel:          logger.DEBUG,
-		OnStartup:         app.startup,
-		OnDomReady:        app.domReady,
-		OnBeforeClose:     app.beforeClose,
-		OnShutdown:        app.shutdown,
-		WindowStartState:  options.Normal,
+		Menu:             nil,
+		Logger:           nil,
+		LogLevel:         logger.DEBUG,
+		OnStartup:        app.startup,
+		OnDomReady:       app.domReady,
+		OnBeforeClose:    app.beforeClose,
+		OnShutdown:       app.shutdown,
+		WindowStartState: options.Normal,
 		Bind: []interface{}{
 			app,
 		},
@@ -55,8 +66,8 @@ func main() {
 			DisableWindowIcon:    false,
 			// DisableFramelessWindowDecorations: false,
 			WebviewUserDataPath: "",
-			ZoomFactor: 1.0,
-			DisablePinchZoom: true,
+			ZoomFactor:          1.0,
+			DisablePinchZoom:    true,
 		},
 		// Mac platform specific options
 		Mac: &mac.Options{

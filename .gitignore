@@ -1,3 +1,14 @@
 build/bin
 node_modules
 frontend/dist
+
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+*.log
+.env
+
+data.db
