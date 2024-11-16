@@ -1,41 +1,11 @@
 import { NavFavorites } from "@/components/nav-favorites"
 import { NavWorkspaces } from "@/components/nav-workspaces"
-import { SideNavMenu } from "@/components/ui/nav/SideBarMenu"
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarRail, } from "@/components/ui/sidebar"
+import { SidebarNavMenuButton } from "@/components/ui/nav/SidebarNavMenu"
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarRail } from "@/components/ui/sidebar"
 import { Home, Plus, Search, Settings2, Trash2 } from "lucide-react"
 import * as React from "react"
 
 const data = {
-  navMain: [
-    {
-      title: "Home",
-      url: "#",
-      icon: Home,
-      isActive: true,
-    },
-    {
-      title: "Quick Add",
-      url: "#",
-      icon: Plus,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: Search,
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-    },
-    {
-      title: "Trash",
-      url: "#",
-      icon: Trash2,
-    },
-  ],
   favorites: [
     {
       name: "Project Management & Task Tracking",
@@ -197,11 +167,15 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function RootSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
-        <SideNavMenu items={data.navMain} />
+        <SidebarMenu >
+          <SidebarNavMenuButton title="Home" icon={Home} isActive />
+          <SidebarNavMenuButton title="Quick Add" icon={Plus} />
+          <SidebarNavMenuButton title="Search" icon={Search} />
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
 
@@ -210,7 +184,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
         <SidebarGroup {...props} className="mt-auto">
           <SidebarGroupContent>
-            <SideNavMenu items={data.navSecondary} />
+            <SidebarMenu>
+              <SidebarNavMenuButton title="Settings" icon={Settings2} />
+              <SidebarNavMenuButton title="Trash" icon={Trash2} />
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 

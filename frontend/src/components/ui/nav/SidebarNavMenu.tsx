@@ -4,13 +4,13 @@ import React from "react"
 
 export interface SideNavMenuItem {
   title: string
-  url: string
+  url?: string
   icon: LucideIcon
   badge?: React.ReactNode
   isActive?: boolean
 }
 
-export function SideNavMenu({
+export function SidebarNavMenu({
   items,
   ...props
 }: {
@@ -30,5 +30,28 @@ export function SideNavMenu({
         </SidebarMenuItem>
       ))}
     </SidebarMenu>
+  )
+}
+
+type SideNavMenuButton = React.ComponentProps<typeof SidebarMenuButton> & SideNavMenuItem & { href?: string }
+
+export function SidebarNavMenuButton({
+  title,
+  url,
+  href,
+  badge,
+  ...props
+}: SideNavMenuButton) {
+
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild {...props}>
+        <a href={href || url}>
+          <props.icon size={24} />
+          <span>{title}</span>
+        </a>
+      </SidebarMenuButton>
+      {badge && <SidebarMenuBadge>{badge}</SidebarMenuBadge>}
+    </SidebarMenuItem>
   )
 }
