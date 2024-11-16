@@ -1,3 +1,4 @@
+import CommandsMenu from "@/components/features/CommandsMenu";
 import { RootSidebar } from "@/components/layouts/root/sidebar/RootSidebar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
@@ -11,6 +12,7 @@ export default function RootLayout({ children }: { children?: React.ReactNode })
                         {children}
                     </SidebarInset>
                 </SidebarProvider>
+                <CommandsMenu />
         </ThemeProvider>
     )
 }
